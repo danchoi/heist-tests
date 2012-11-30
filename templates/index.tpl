@@ -6,5 +6,5 @@ hello
 
 </loginLogOut>
 
-
+<test2/>
 

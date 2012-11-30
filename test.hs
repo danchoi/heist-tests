@@ -7,6 +7,7 @@ import             Data.Text (Text)
 import qualified   Data.Text as T
 import qualified   Text.XmlHtml as X
 import             Text.Templating.Heist
+import System.Environment
 
 link :: Text -> Text -> X.Node
 link target text = X.Element "a" [("href", target)] [X.TextNode text]
@@ -28,8 +29,9 @@ loginLogoutSplice = do
 mySplices = [ ("loginLogout", loginLogoutSplice) ]
 
 main = do
+   [name] <- getArgs
    Right ts <- loadTemplates "templates" $
           bindSplices mySplices defaultHeistState
    -- let ts = either error id ets
-   t <- renderTemplate ts "index" 
+   t <- renderWithArgs [("test2", T.pack name)]  ts "index" 
    print $ maybe "Page not found" (toByteString . fst) t
