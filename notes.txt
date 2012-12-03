@@ -1,0 +1,19 @@
+
+Haskell Heist is a lot faster with compiled Haskell
+ 
+Case 1. Templating with no database, but templates read from File
+
+./test daniel
+real    0m0.007s
+user    0m0.000s
+sys     0m0.004s
+
+ruby ruby-test.rb
+real    0m0.167s
+user    0m0.016s
+sys     0m0.020s
+
+time runghc test.hs  test
+real    0m0.329s
+user    0m0.284s
+sys     0m0.032s
