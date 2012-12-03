@@ -17,3 +17,22 @@ time runghc test.hs  test
 real    0m0.329s
 user    0m0.284s
 sys     0m0.032s
+
+
+Case 2. With Database Access
+
+compiled haskell
+./testdb
+real    0m0.028s
+user    0m0.004s
+sys     0m0.012s
+
+runghc testdb.hs
+real    0m0.446s
+user    0m0.392s
+sys     0m0.032s
+
+ruby ruby-testdb.rb
+real    0m0.445s
+user    0m0.376s
+sys     0m0.048s

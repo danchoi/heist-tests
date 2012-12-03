@@ -7,5 +7,9 @@ hello
 
 </loginLogOut>
 
-<test2/>
+<recentTitles>
+  <tTitle/>
+  <tSynopsis/>
+</recentTitles>
+
 </apply>
