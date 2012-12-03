@@ -1,3 +1,4 @@
+<apply template="default">
 
 hello
 
@@ -7,4 +8,4 @@ hello
 </loginLogOut>
 
 <test2/>
-
+</apply>

@@ -34,4 +34,4 @@ main = do
           bindSplices mySplices defaultHeistState
    -- let ts = either error id ets
    t <- renderWithArgs [("test2", T.pack name)]  ts "index" 
-   print $ maybe "Page not found" (toByteString . fst) t
+   B.putStr $ maybe "Page not found" (toByteString . fst) t
