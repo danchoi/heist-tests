@@ -33,9 +33,9 @@ user    0m0.392s
 sys     0m0.032s
 
 ruby ruby-testdb.rb
-real    0m0.445s
-user    0m0.376s
-sys     0m0.048s
+real    0m0.310s
+user    0m0.160s
+sys     0m0.016s
 
 
 
