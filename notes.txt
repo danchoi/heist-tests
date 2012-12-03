@@ -36,3 +36,10 @@ ruby ruby-testdb.rb
 real    0m0.445s
 user    0m0.376s
 sys     0m0.048s
+
+
+
+
+Haskell is fast. We can even put pagination markup at the bottom of the
+results.
+
