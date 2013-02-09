@@ -1,4 +1,5 @@
 {-# LANGUAGE OverloadedStrings #-}
+{-# LANGUAGE ScopedTypeVariables #-}
 module Main where
 import             Blaze.ByteString.Builder
 import             Data.ByteString.Char8 (ByteString)
@@ -6,14 +7,17 @@ import qualified   Data.ByteString.Char8 as B
 import             Data.Text (Text)
 import qualified   Data.Text as T
 import qualified   Text.XmlHtml as X
-import             Text.Templating.Heist
+import             Heist
+import             Heist.Interpreted
 import System.Environment
--- import Control.Monad (liftM)
-import Control.Monad.IO.Class (liftIO)
+import Control.Monad (liftM)
+import Control.Monad.IO.Class (liftIO, MonadIO)
+import Control.Monad.Trans (lift)
 import Data.Maybe (fromMaybe)
 
 import Database.HDBC
 import Database.HDBC.PostgreSQL
+import Control.Monad.Trans.Either (runEitherT, EitherT)
 
 connPg = "dbname=netflix"
 
@@ -53,13 +57,24 @@ recentTitlesSplice = liftIO getRecentTitles >>= renderTitles
 
 mySplices = [ ("recentTitles", recentTitlesSplice) ]
 
+
+
+load :: MonadIO n => FilePath -> [(Text, Splice n)] -> IO (HeistState n)
+load baseDir splices = do
+    tmap <- runEitherT  $ do
+        templates <- loadTemplates baseDir
+        let hc = HeistConfig [] defaultLoadTimeSplices splices [] templates
+        initHeist hc
+    either (error . concat) return tmap
+
 main = do
-      Right ts <- loadTemplates "templates" $
-          bindSplices mySplices defaultHeistState
+      let ts = load "templates" $ bindSplices mySplices 
+      putStrLn $ show ts
       -- let ts = either error id ets
       -- B.putStr $ maybe "Page not found" (toByteString . fst) t
-      getRecentTitles
+      {- getRecentTitles
       t <- renderWithArgs [("test", T.pack "hello world")]  ts "index" 
       B.putStr $ maybe "Page not found" (toByteString . fst) t
+      -}
       
 
