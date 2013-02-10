@@ -59,22 +59,18 @@ mySplices = [ ("recentTitles", recentTitlesSplice) ]
 
 
 
-load :: MonadIO n => FilePath -> [(Text, Splice n)] -> IO (HeistState n)
+-- load :: MonadIO n => FilePath -> [(Text, Splice n)] -> IO (HeistState n)
 load baseDir splices = do
     tmap <- runEitherT  $ do
         templates <- loadTemplates baseDir
-        let hc = HeistConfig [] defaultLoadTimeSplices splices [] templates
+        let hc = HeistConfig mySplices  [] [] [] templates
         initHeist hc
     either (error . concat) return tmap
 
 main = do
-      let ts = load "templates" $ bindSplices mySplices 
-      putStrLn $ show ts
-      -- let ts = either error id ets
-      -- B.putStr $ maybe "Page not found" (toByteString . fst) t
-      {- getRecentTitles
-      t <- renderWithArgs [("test", T.pack "hello world")]  ts "index" 
-      B.putStr $ maybe "Page not found" (toByteString . fst) t
-      -}
+      ts <- load "templates" $ bindSplices mySplices 
+      renderWithArgs [("test", T.pack "hello world")]  ts "index" >>= 
+        B.putStr . maybe "Page not found" (toByteString . fst) 
+     
       
 
