@@ -103,3 +103,50 @@ main = do
     hPutStrLn stderr $ T.unpack msgs
     _ <- try $ httpServe defaultConfig site :: IO (Either SomeException ())
     cleanup
+
+
+{- 
+
+Templates
+
+
+date-form.tpl
+<dfInputText ref="day" size="2" />
+/
+<dfInputText ref="month" size="2" />
+/
+<dfInputText ref="year" size="4" />
+
+
+user-form.tpl
+<dfForm action="/">
+    <dfChildErrorList />
+
+    <dfLabel ref="name">Name: </dfLabel>
+    <dfInputText ref="name" />
+    <br>
+
+    <dfLabel ref="password">Password: </dfLabel>
+    <dfInputPassword ref="password" />
+    <br>
+
+    <dfLabel ref="sex">Sex: </dfLabel>
+    <dfInputSelect ref="sex" />
+    <br>
+
+    Birthday:
+    <dfSubView ref="birthdate">
+        <apply template="date-form" />
+    </dfSubView> 
+    <br>
+
+    <dfInputSubmit value="Enter" />
+</dfForm>
+
+user.tpl
+<h1>User <name/></h1>
+<p><user/></p>
+
+
+-}
+
