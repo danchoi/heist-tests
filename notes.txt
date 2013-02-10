@@ -43,3 +43,10 @@ sys     0m0.016s
 Haskell is fast. We can even put pagination markup at the bottom of the
 results.
 
+cabal install heist-0.11.0
+cabal install snap from github repo --condition "errors == 1.4.1"
+
+
+digestive functors example
+runghc snap-heist.hs 
+
