@@ -89,3 +89,35 @@ user.tpl
 <h1>User <name/></h1>
 <p><user/></p>
 
+
+heistLocal
+
+Runs a handler with a modified HeistState. You might want to use this if you
+had a set of splices which were customised for a specific action. To do that
+you would do:
+
+ heistLocal (bindSplices mySplices) handlerThatNeedsSplices
+
+Text.Digestive.Snap
+
+http://hackage.haskell.org/packages/archive/digestive-functors-snap/0.6.0.0/doc/html/Text-Digestive-Snap.html
+
+runForm
+:: MonadSnap m	 
+=> Text	         Name for the form
+-> Form v m a	   Form to run
+-> m (View v, Maybe a)	Result
+
+Runs a form with the HTTP input provided by Snap.
+
+Automatically picks between getForm and postForm based on the request method. Set method in the SnapFormConfig to override this behaviour. 
+
+
+Text.Digestive.Heist
+
+digestiveSplices :: MonadIO m => View Text -> [(Text, Splice m)]
+bindDigestiveSplices :: MonadIO m => View Text -> HeistState m -> HeistState m
+
+
+http://hackage.haskell.org/packages/archive/digestive-functors-heist/0.6.0.0/doc/html/Text-Digestive-Heist.html
+

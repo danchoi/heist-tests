@@ -82,7 +82,9 @@ form = do
         Nothing -> heistLocal (bindDigestiveSplices view) $ render "user-form"
   where
     bindUser user =
-        I.bindSplices [("user", I.textSplice (T.pack $ show user))]
+        I.bindSplices [
+          ("user", I.textSplice (T.pack $ show user)), 
+          ("name", I.textSplice $ userName user) ]
 
 --------------------------------------------------------------------------------
 -- Main code: glue everything together                                        --
