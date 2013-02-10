@@ -48,5 +48,6 @@ cabal install snap from github repo --condition "errors == 1.4.1"
 
 
 digestive functors example
+mkdir log
 runghc snap-heist.hs 
 
