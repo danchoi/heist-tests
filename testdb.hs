@@ -70,7 +70,7 @@ mySplices = [ ("recentTitles", recentTitlesSplice), ("findTitles", findTitlesSpl
 load baseDir splices = do
     tmap <- runEitherT  $ do
         templates <- loadTemplates baseDir
-        let hc = HeistConfig mySplices  [] [] [] templates
+        let hc = HeistConfig mySplices  defaultLoadTimeSplices [] [] templates
         initHeist hc
     either (error . concat) return tmap
 

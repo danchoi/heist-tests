@@ -1,4 +1,6 @@
 <apply template="default">
+
+  TEMPLATE
   hello
   <test/>
 
