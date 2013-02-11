@@ -1,15 +1,17 @@
 <apply template="default">
+  hello
+  <test/>
 
-hello
+  <loginLogout>
+    <h1><test/></h1>
+  </loginLogOut>
 
-<loginLogout>
-<h1><test/></h1>
+  <recentTitles/>
 
-</loginLogOut>
 
-<recentTitles>
-  <tTitle/>
-  <tSynopsis/>
-</recentTitles>
+  <h3>QUERY</h3>
+  <findTitles/>
+
+  TEST END
 
 </apply>

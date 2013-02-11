@@ -38,9 +38,7 @@ titleSplice title = do
     mTemplate <- callTemplateWithText (B.pack ("titleSplice")) [("tTitle", tTitle title), ("tSynopsis", tSynopsis title)]
     return mTemplate
 
-renderTitles :: Monad m => [Title] -> Splice m
--- renderTitles = mapSplices renderTitle
-renderTitles = mapSplices titleSplice
+convRowTitle [_, title, synopsis, _]  = Title (fromSql title) (fromSql synopsis)
 
 getRecentTitles :: IO [Title]
 getRecentTitles  = do
@@ -49,13 +47,22 @@ getRecentTitles  = do
       let titles = map convRowTitle rows
       mapM_ (putStrLn . show) titles 
       return titles
-  where
-      convRowTitle [_, title, synopsis, _]  = Title (fromSql title) (fromSql synopsis)
+
+findTitles :: String -> IO [Title]
+findTitles s = do
+      pg <- connectPostgreSQL connPg
+      rows <- quickQuery' pg "select netflix_id, title, synopsis, year from titles_instant where title ilike ? limit 20" [toSql ("%" ++ s ++ "%")] 
+      let titles = map convRowTitle rows
+      mapM_ (putStrLn . show) titles 
+      return titles
 
 recentTitlesSplice :: Splice IO
-recentTitlesSplice = liftIO getRecentTitles >>= renderTitles
+recentTitlesSplice = liftIO getRecentTitles >>= mapSplices titleSplice
 
-mySplices = [ ("recentTitles", recentTitlesSplice) ]
+findTitlesSplice :: Splice IO
+findTitlesSplice = liftIO (findTitles "india") >>= mapSplices titleSplice
+
+mySplices = [ ("recentTitles", recentTitlesSplice), ("findTitles", findTitlesSplice) ]
 
 
 
@@ -69,8 +76,10 @@ load baseDir splices = do
 
 main = do
       ts <- load "templates" $ bindSplices mySplices 
-      renderWithArgs [("test", T.pack "hello world")]  ts "index" >>= 
-        B.putStr . maybe "Page not found" (toByteString . fst) 
+      -- renderWithArgs [("test", T.pack "hello world")]  ts "index" >>= B.putStr . maybe "Page not found" (toByteString . fst) 
+      renderWithArgs [("test", T.pack "hello world"), ("query", "india")]  ts "index" >>= B.putStr . maybe "Page not found" (toByteString . fst) 
+      -- s <- (evalHeistT $ callTemplate "index" [("test", T.pack "hello world"), ("query", "india")]) 
+      -- putStr . show $ s
      
       
 
