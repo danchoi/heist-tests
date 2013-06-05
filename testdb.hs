@@ -35,7 +35,7 @@ renderTitle title = do
 titleSplice :: Monad m => Title -> Splice m
 titleSplice title = do
     -- templates/titleSplice.tpl
-    mTemplate <- callTemplateWithText (B.pack ("titleSplice")) [("tTitle", tTitle title), ("tSynopsis", tSynopsis title)]
+    mTemplate <- callTemplateWithText (B.pack ("titleMin")) [("tTitle", tTitle title), ("tSynopsis", tSynopsis title)]
     return mTemplate
 
 convRowTitle [_, title, synopsis, _]  = Title (fromSql title) (fromSql synopsis)
